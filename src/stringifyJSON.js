@@ -9,10 +9,7 @@ var stringifyJSON = function(obj) {
   var JSON = '';
   
   var recurse = function(obj) {
-    if (typeof obj === 'function' || obj === undefined) {
-      return undefined;
-    }
-    else if (obj === null) {
+    if (obj === null) {
       JSON += 'null';
     }
     else if (typeof obj === 'number' || typeof obj === 'boolean') {
@@ -22,36 +19,29 @@ var stringifyJSON = function(obj) {
       JSON += '\"' + obj + '\"';
     }
     else if (Array.isArray(obj)) {
-      if (obj.length === 0) {
-        JSON += '[]';
-      } else {
-        JSON += '[';
-        _.each(obj, function(item, index) {
-          recurse(item);
-          JSON += ',';
-        });
-        JSON = JSON.slice(0,-1);
-        JSON += ']';
-      }
+      JSON += '[ ';
+      _.each(obj, function(item) {
+        recurse(item);
+        JSON += ',';
+      });
+      JSON = JSON.slice(0,-1);
+      JSON = JSON.replace(' ', '');
+      JSON += ']';
     } else {
-      if (_.isEmpty(obj)) {
-        JSON += '{}';
-      } else {
-        JSON += '{ ';
-        _.each(obj, function(val, key) {
-          if (typeof val === 'function' || val === undefined) {
-            // skip
-          } else {
-            recurse(key);
-            JSON += ':'
-            recurse(val);
-            JSON += ',';
-          }        
-        });
-        JSON = JSON.slice(0,-1);
-        JSON = JSON.replace(' ', '');
-        JSON += '}';
-      }
+      JSON += '{ ';
+      _.each(obj, function(val, key) {
+        if (typeof val === 'function' || val === undefined) {
+          // skip
+        } else {
+          recurse(key);
+          JSON += ':'
+          recurse(val);
+          JSON += ',';
+        }        
+      });
+      JSON = JSON.slice(0,-1);
+      JSON = JSON.replace(' ', '');
+      JSON += '}';
     }
   }
   recurse(obj);
