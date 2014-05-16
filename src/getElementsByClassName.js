@@ -6,7 +6,6 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
   var elements = [];
-  var body = document.body;
 
   var dive = function(node) {
     if (node.nodeType === 1 && node.classList.contains(className)) {
@@ -16,7 +15,7 @@ var getElementsByClassName = function(className){
       dive(child);
     });
   }
-  dive(body);
+  dive(document.body);
   
   return elements;
 };
