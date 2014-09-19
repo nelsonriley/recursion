@@ -11,6 +11,8 @@ Story in a few words:
 return an array of nodes in the dom
 traverse the entire document with a depth first search
 see the code
+
+neat trick: strings have a nice method called .contains('subString'), for arrays you might use _.contains(coll, 'itemInCollection')
       
 */
 
